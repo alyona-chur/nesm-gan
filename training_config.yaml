@@ -1,0 +1,36 @@
+data_paths:
+  original_data_path: 'data/nesmdb24_seprsco/train'  # raw
+  train_data_path: 'data/processed_train_data_rol_len12_step12_sr0.1'  # processed
+
+  checkpoints_results_path: 'data/{datetime}_checkpoints'  # raw, wav
+  results_path: 'data/{datetime}_result'  # raw, wav
+
+data_processor:
+  # Data Representation Format
+  #   - 'mell', Mell Spectrogram. Do not use:
+  #     forward-backward transform gives terrible results (see ??? research).
+  #   - 'roll', Piano Roll-like image.
+  representation: 'roll'
+
+  sample_len: 12
+  step: 12  # No overlapping when sample_len >= step.
+  scaling: ''
+
+  sample_rate: 0.1
+  download_if_missing: true
+  replace_if_exists: false
+
+model:
+  save_models_path: 'models/{datetime}_models'
+
+  generator: null
+  discriminator: null
+
+  training:
+    discriminator_model: null
+    adversarial_model: null
+
+  # TODO: Create an option to resume training.
+  resume_training:
+    resume: false
+    run_datetime: null
