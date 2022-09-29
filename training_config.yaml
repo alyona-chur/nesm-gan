@@ -8,7 +8,7 @@ data_paths:
 data_processor:
   # Data Representation Format
   #   - 'mell', Mell Spectrogram. Do not use:
-  #     forward-backward transform gives terrible results (see ??? research).
+  #     forward-backward transform gives terrible results, see ??? research.
   #   - 'roll', Piano Roll-like image.
   representation: 'roll'
 
@@ -17,8 +17,8 @@ data_processor:
   scaling: ''
 
   sample_rate: 0.1
-  download_if_missing: true
   replace_if_exists: false
+  download_if_missing: true
 
 model:
   save_models_path: 'models/{datetime}_models'
