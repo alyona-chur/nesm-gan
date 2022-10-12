@@ -1,0 +1,17 @@
+ipython
+jupyter
+Keras-Applications
+Keras-Preprocessing
+librosa
+matplotlib
+numpy
+opencv-python
+scikit-learn
+scipy
+sndfile
+tensorboard
+tensorflow
+tqdm
+tensorflow-estimator
+tqdm
+tensorflow-gpu

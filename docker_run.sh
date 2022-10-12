@@ -14,25 +14,28 @@ while getopts ":t" opt; do
 done
 
 # Set image type: cpu, gpu
+GPU_CMD=''
 if [ "$IMAGE_TYPE" == "gpu" ]; then
   IMAGE_NAME='nesm-gan-gpu'
-  DOCKERFILE_PATH='docker/gpu.Dockerfile'
+  GPU_CMD='--gpus all '
 elif [ "$IMAGE_TYPE" == "cpu" ]; then
   IMAGE_NAME='nesm-gan-cpu'
-  DOCKERFILE_PATH='docker/cpu.Dockerfile'
 else
-  echo "Unable to build docker image, unknown image type $IMAGE_TYPE";
+  echo "Unable to run docker container, unknown image type $IMAGE_TYPE";
   exit 1
 fi
 
 # Build command and run
-cmd="docker build "
-cmd+="--build-arg USER_NAME=$(whoami) "
-cmd+="--build-arg USER_ID=$(id -u ${USER}) "
-cmd+="--build-arg GROUP_ID=$(id -g ${USER}) "
-cmd+="-t ${IMAGE_NAME} "
-cmd+="-f ${DOCKERFILE_PATH} "
-cmd+="."
+cmd="docker run "
+cmd+="-u $(id -u):$(id -g) "
+cmd+="${GPU_CMD}"
+cmd+="--mount type=bind,source=$(pwd),destination=/usr/src/app "
+cmd+="-it "
+cmd+="--rm "
+cmd+="--name nesm-gan-$(whoami) "
+cmd+="-p 10171:10171 "
+cmd+="${IMAGE_NAME} "
+cmd+="/bin/bash"
 
-echo "$cmd" && \
+echo "$cmd"  && \
 eval "$cmd"

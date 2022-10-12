@@ -1,5 +1,7 @@
-ARG UBUNTU_VERSION=18.04  # Python 2 is required
-FROM ubuntu:${UBUNTU_VERSION} as base
+ARG CUDA_VERSION=11.6.2
+ARG CUDNN_VERSION=8
+ARG UBUNTU_VERSION=18.04
+FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-devel-ubuntu${UBUNTU_VERSION} as base
 
 SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,28 +16,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-distutils \
     python3-setuptools \
-    python-pip \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    libeigen3-dev \
-    libyaml-cpp-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    libavcodec-dev \
-    libavformat-dev \
-    libswscale-dev \
-    libv4l-dev \
-    libxvidcore-dev \
-    libx264-dev \
-    libgtk-3-dev \
-    libatlas-base-dev \
-    gfortran \
-    libgstreamer1.0-dev \
-    libgstreamer-plugins-base1.0-dev \
-    libdc1394-22-dev \
-    libsndfile1 libsndfile1-dev  # For sndfile
+    python-pip
 
 # Create a user to map from docker host
 ARG USER_ID
@@ -52,17 +33,17 @@ ARG PYTHON2=python
 ARG PIP2=pip2
 
 # Install required Python packages
-# RUN apt-get update && apt-get install -y ${PYTHON}-pip
-# RUN apt-get update && apt-get install -y ${PYTHON2}-pip
+RUN apt-get update && apt-get install -y ${PYTHON}-pip
+RUN apt-get update && apt-get install -y ${PYTHON2}-pip
 RUN ${PIP} --no-cache-dir install --upgrade pip
 
 # Install required pip packages
-COPY ./requirements_python3.txt ./
+COPY ./docker/requirements_python3.txt ./
 RUN ${PIP} install --upgrade pip \
    && ${PIP} install --no-cache-dir -r requirements_python3.txt \
    && rm requirements_python3.txt
 
-COPY ./requirements_python2.txt ./
+COPY ./docker/requirements_python2.txt ./
 RUN ${PIP2} install --upgrade pip \
    && ${PIP2} install --no-cache-dir -r requirements_python2.txt \
   && rm requirements_python2.txt

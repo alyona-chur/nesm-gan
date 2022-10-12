@@ -1,6 +1,6 @@
 data_paths:
   original_data_path: 'data/nesmdb24_seprsco/train'  # raw
-  train_data_path: 'data/processed_train_data_rol_len12_step12_sr0.1'  # processed
+  train_data_path: 'data/processed_train_data_rol_len12_step12_sr0.1'  # represented
 
   checkpoints_results_path: 'data/{datetime}_checkpoints'  # raw, wav
   results_path: 'data/{datetime}_result'  # raw, wav
@@ -11,16 +11,22 @@ data_processor:
   #     forward-backward transform gives terrible results, see ??? research.
   #   - 'roll', Piano Roll-like image.
   representation: 'roll'
-
-  sample_len: 12
-  step: 12  # No overlapping when sample_len >= step.
+  # Data Scaling
+  #   -
   scaling: ''
-
-  sample_rate: 0.1
   replace_if_exists: false
-  download_if_missing: true
 
-model:
+  # For Forward Processing of original datasets
+  download_if_missing: true
+  dataset_sample_rate: 0.1
+  sample_len: 12
+  cutting_step: 12  # No overlapping when sample_len >= step.
+
+model_inferencer:
+  model_path: ''
+  num_of_samples: 10
+
+model_trainer:
   save_models_path: 'models/{datetime}_models'
 
   generator: null
@@ -31,6 +37,6 @@ model:
     adversarial_model: null
 
   # TODO: Create an option to resume training.
-  resume_training:
-    resume: false
-    run_datetime: null
+  # resume_training:
+  #   resume: false
+  #   run_datetime: null
