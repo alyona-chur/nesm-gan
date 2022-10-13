@@ -13,7 +13,6 @@ from components.common.configuration import DataPathsConfiguration, DataProcesso
 class OriginalDataFormat(Enum):
     # - 'seprsco', Separated Score Format. Contains Note information only,
     #  for 4 instruments for N number for timestamps at 24Hz.
-    # TODO: Try Expressive Score Format.
     SEPRSCO = 'seprsco'
 
 
@@ -86,6 +85,10 @@ class DataProcessor:
 
     def process_backward(self, repr_dir: Path, orig_dir: Path, save_wav: bool = False):
         pass
+
+
+def download_data():
+    pass
 
 
 # def read_seprsco(path: Path):

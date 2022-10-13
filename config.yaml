@@ -10,7 +10,8 @@ data_processor:
   #   - 'mell', Mell Spectrogram. Do not use:
   #     forward-backward transform gives terrible results, see ??? research.
   #   - 'roll', Piano Roll-like image.
-  representation: 'roll'
+  representation: 'piano_roll'
+
   # Data Scaling
   #   -
   scaling: ''
