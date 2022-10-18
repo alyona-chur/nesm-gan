@@ -1,3 +1,4 @@
+imageio
 ipython
 jupyter
 Keras-Applications
